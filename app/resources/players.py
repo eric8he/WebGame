@@ -13,7 +13,16 @@ class UsersResource(Resource):
         return args.get('id'), 200
 
     def post(self):
+        """
+        Test with
+        curl -d '{"name": "dad"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:5000/users
+
+        More cURL example at 
+
+        https://gist.github.com/subfuzion/08c5d85437d5d4f00e58
+        """
         parser = reqparse.RequestParser()
         parser.add_argument('name', type=str, required=True)
         args = parser.parse_args()
-        return '', 202
+        name = args.get('name')
+        return 'Hi {}!'.format(name), 202
