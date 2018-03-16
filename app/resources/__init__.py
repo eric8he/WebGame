@@ -1,11 +1,11 @@
 from app import api, settings
 from . import (
 	players,
-	#core,
-	interface
+	interface,
+	core
 )
-#api.add_resource(players.UsersResource, '/users')
 
-api.add_resource(interface.index_page, '/')
-api.add_resource(interface.signup_page, '/signup/')
-#api.add_resource(i, '/users')
+
+api.add_resource(players.UsersResource, '/users')
+api.add_resource(interface.SignUp, '/signup')
+api.add_resource(interface.LogIn, '/login')

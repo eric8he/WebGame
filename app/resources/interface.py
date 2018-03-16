@@ -1,37 +1,48 @@
-from flask import Flask
+from flask import Flask, redirect
 from flask_restful import Resource, reqparse
-#import core
+
+from . import core
 app = Flask(__name__)
 
-#data_store=core.player_data_store()
-#@app.route('/')
+data_store=core.player_data_store()
+	
 
 
-class index_page(Resource):
+
+class SignUp(Resource):
+
 	def get(self):
-		return self.html(),200
+		pass
 
-	def html(self):
-		return '<!DOCTYPE html><html><head></head><body><a href="/signup/">Sign up</a><br /><a href="/login/">Log in</a></body></html>'
-
-class signup_page(Resource):
-	def get(self):
-		return self.html(),200
+	def post(self):
+		parser = reqparse.RequestParser()
+		parser.add_argument('username', type=str, required=True)
+		parser.add_argument('email', type=str, required=True)
+		parser.add_argument('password', type=str, required=True)
+		parser.add_argument('password_conf', type=str, required=True)
+		args = parser.parse_args()
+		username = args.get('username')
+		email = args.get("email")
+		password = args.get('password')
+		if(args.get('password_conf')!=password or data_store.find_email(email) or data_store.find_username(username)):
+			return redirect('../signup/', 301)
+		data_store.set(core.player_id,core.player(email,username,core.encrypt_password(password)))
+		print ('Set up new player account.')
+		return redirect('../redirect/', 301)
 		
-	def html(self):
-		return '<!DOCTYPE html><html><head></head><body><p>E-mail </p><input id="email"></input> <br /><p>Username </p><input id="username"></input> <br /><p>Password </p><input id="password"></input> <br /><p>Confirm Password </p><input id="password_conf"></input> <br /><p id="incorrect" style="color:red"></p><br /><button onclick="submit()">Sign Up</button><script>var submit=function(){var email = document.getElementById("email").value;var username = document.getElementById("username").value;var password = document.getElementById("password").value;if(document.getElementById("password_conf").value!=password){document.getElementById("incorrect").textContent="Passwords do not match!";return;}document.getElementById("incorrect").textContent="";window.location=window.location+"?email="email+"&username="+username+"&password="+password+"/";};</script></body></html>'
-	
+class LogIn(Resource):
+	def get(self):
+		pass
 
-#@app.route('/signup/')
-
-"""@app.route('/signup/<email>/<username>/<password>/')
-def signup(email,username,password):
-	if(data_store.find_email(email)):
-		return '<!DOCTYPE html><html><head></head><body>That e-mail has already been used.<br /><a href="/signup/">Try again</a></body></html>'
-	
-	if(data_store.find_username(username)):
-		return '<!DOCTYPE html><html><head></head><body>That username has already been used.<br /><a href="/signup/">Try again</a></body></html>'
-	
-	data_store.set(core.player_id,player(email,username,password))
-	print ('Set up new player account.')"""
+	def post(self):
+		parser = reqparse.RequestParser()
+		parser.add_argument('username', type=str, required=True)
+		parser.add_argument('password', type=str, required=True)
+		args = parser.parse_args()
+		username = args.get('username')
+		password = args.get('password')
+		trying_player_id = data_store.find_player_with_username(username)
+		if (trying_player_id == -1 or data_store.get(trying_player_id).password != core.encrypt_password(password)):
+			return redirect('../login/', 301)
+		return '{}, you are now logged in.'.format(username), 200
 	

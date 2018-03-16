@@ -1,5 +1,5 @@
 import flask_restful
-from flask import Flask
+from flask import Flask, render_template
 
 from . import settings
 
@@ -11,5 +11,9 @@ api = flask_restful.Api(app)
 @app.route('/healthcheck')
 def healthcheck():
     return 'OK'
+
+@app.route('/<string:page_name>/')
+def render_static(page_name):
+    return render_template('%s.html' % page_name)
 
 from . import resources  # noqa
