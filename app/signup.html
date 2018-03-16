@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<p>E-mail  </p><input id="email"></input> <br />
+<p>Username  </p><input id="username"></input> <br />
+<p>Password  </p><input id="password"></input> <br />
+<p>Confirm Password  </p><input id="password_conf"></input> <br />
+<p id="incorrect" style="color:red"></p><br />
+<button onclick="submit()">Sign Up</button>
+<script>
+var submit=function(){
+	var email = document.getElementById("email").value;
+	var username = document.getElementById("username").value;
+	var password = document.getElementById("password").value;
+	if(document.getElementById("password_conf").value!=password){
+		document.getElementById("incorrect").textContent="Passwords do not match!";
+		return;
+	}
+	document.getElementById("incorrect").textContent="";
+	window.location=window.location+"?email="email+"&username="+username+"&password="+password+"/";
+};
+</script>
+</body>
+</html>'
+	
