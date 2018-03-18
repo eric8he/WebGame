@@ -16,4 +16,8 @@ def healthcheck():
 def render_static(page_name):
     return render_template('%s.html' % page_name)
 
+@app.route('/')
+def index():
+    return render_template('redirect.html')
+
 from . import resources  # noqa

@@ -1,4 +1,4 @@
-import queue, math, random
+import queue, math, random, threading
 from . import util
 chain_id = 0
 player_id = 0
@@ -117,9 +117,21 @@ class game:
 		def set_scout_mode(self, is_self):
 			self.is_self=is_self
 
+	class p_ticker(threading.Thread):
+		def __init__(self,p_datastore):
+			self.datastore = p_datastore
+
+		def run(self):
+			self.tick_timer = util.RepeatedTimer(1000,self.tick())
+
+		def tick(self):
+			for p in self.datastore.players:
+				self.datastore.get(p).tick()
+
 	def __init__(self):
 		self.store = self.player_data_store()
-	
+		self.ticker = self.p_ticker(self.store)
+
 	def create_player(self,p):
 		self.store.new_player(p)
 	

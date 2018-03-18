@@ -4,7 +4,7 @@ from flask_restful import Resource, reqparse
 from . import core
 app = Flask(__name__)
 
-data_store=core.player_data_store()
+game = core.game()
 	
 
 
@@ -24,9 +24,9 @@ class SignUp(Resource):
 		username = args.get('username')
 		email = args.get("email")
 		password = args.get('password')
-		if(args.get('password_conf')!=password or data_store.find_email(email) or data_store.find_username(username)):
+		if(args.get('password_conf')!=password or game.store.find_email(email) or game.store.find_username(username)):
 			return redirect('../signup/', 301)
-		data_store.set(core.player_id,core.player(email,username,core.encrypt_password(password)))
+		game.store.set(core.player_id,game.player(email,username,game.encrypt_password(password)))
 		print ('Set up new player account.')
 		return redirect('../redirect/', 301)
 		
@@ -41,8 +41,8 @@ class LogIn(Resource):
 		args = parser.parse_args()
 		username = args.get('username')
 		password = args.get('password')
-		trying_player_id = data_store.find_player_with_username(username)
-		if (trying_player_id == -1 or data_store.get(trying_player_id).password != core.encrypt_password(password)):
+		trying_player_id = game.store.find_player_with_username(username)
+		if (trying_player_id == -1 or game.store.get(trying_player_id).password != game.encrypt_password(password)):
 			return redirect('../login/', 301)
 		return '{}, you are now logged in.'.format(username), 200
 	

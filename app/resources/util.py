@@ -1,5 +1,4 @@
-import threading 
-import time
+import threading, time
 
 class RepeatedTimer(object):
   def __init__(self, interval, function, *args, **kwargs):
