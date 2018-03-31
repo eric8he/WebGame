@@ -1,0 +1,27 @@
+{
+  "name": "webgame",
+  "version": "1.0.0",
+  "description": "<div align=\"center\"><img src=\"http://www.slayerment.com/files/slayerment/images/ancient-aliens-invisible-something-meme-generator-i-dont-allways-make-a-website-but-when-i-do-i-do-it-wrong-643bcd[1].jpg\" /></div>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "bob": "webpack --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eric8he/WebGame.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eric8he/WebGame/issues"
+  },
+  "homepage": "https://github.com/eric8he/WebGame#readme",
+  "dependencies": {
+    "msgpack": "^1.0.2",
+    "msgpack-lite": "^0.1.26"
+  },
+  "devDependencies": {
+    "webpack": "^4.3.0"
+  }
+}
