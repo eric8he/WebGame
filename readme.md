@@ -11,6 +11,8 @@ $ export FLASK_APP=app/__init__.py
 $ flask run
 ```
 
+Any kids still using this?
+
 ## Test
 ```
 http://127.0.0.1:5000/users?id=eric8he@gmail.com
